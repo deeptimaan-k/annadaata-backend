@@ -10,7 +10,12 @@ exports.registerUser = async (req, res) => {
 
   try {
     // Trim emailAddress to avoid leading/trailing spaces
-    const trimmedEmail = emailAddress.trim();
+    const trimmedEmail = emailAddress ? emailAddress.trim() : null;
+
+    // Check if the email is valid and not null
+    if (!trimmedEmail) {
+      return res.status(400).json({ message: 'Email address is required' });
+    }
 
     // Check if the email already exists
     const existingUser = await User.findOne({ emailAddress: trimmedEmail });
@@ -31,9 +36,11 @@ exports.registerUser = async (req, res) => {
     await newUser.save();
     res.status(201).json({ message: 'User registered successfully', user: newUser });
   } catch (error) {
+    console.error('Error:', error);
     res.status(500).json({ message: 'Server error', error });
   }
 };
+
 
 
 
