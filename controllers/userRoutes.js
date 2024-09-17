@@ -9,8 +9,11 @@ exports.registerUser = async (req, res) => {
   const { accountType, fullName, emailAddress, mobileNumber, password, termsAccepted } = req.body;
 
   try {
+    // Normalize email by trimming and converting to lowercase
+    const emailAddressNormalized = emailAddress.toLowerCase().trim();
+
     // Check if the email already exists
-    const existingUser = await User.findOne({ emailAddress });
+    const existingUser = await User.findOne({ emailAddress: emailAddressNormalized });
     if (existingUser) {
       return res.status(400).json({ message: 'Email already in use' });
     }
@@ -19,7 +22,7 @@ exports.registerUser = async (req, res) => {
     const newUser = new User({
       accountType,
       fullName,
-      emailAddress,
+      emailAddress: emailAddressNormalized, // Save normalized email
       mobileNumber,
       password,
       termsAccepted
@@ -38,6 +41,7 @@ exports.registerUser = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
 
 
 // Function to authenticate a user
