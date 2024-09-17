@@ -9,38 +9,32 @@ exports.registerUser = async (req, res) => {
   const { accountType, fullName, emailAddress, mobileNumber, password, termsAccepted } = req.body;
 
   try {
-    // Normalize email by trimming and converting to lowercase
-    const emailAddressNormalized = emailAddress.toLowerCase().trim();
+    // Trim emailAddress to avoid leading/trailing spaces
+    const trimmedEmail = emailAddress.trim();
 
     // Check if the email already exists
-    const existingUser = await User.findOne({ emailAddress: emailAddressNormalized });
+    const existingUser = await User.findOne({ emailAddress: trimmedEmail });
     if (existingUser) {
       return res.status(400).json({ message: 'Email already in use' });
     }
 
     // Create a new user
-    const newUser = new User({
-      accountType,
-      fullName,
-      emailAddress: emailAddressNormalized, // Save normalized email
-      mobileNumber,
-      password,
-      termsAccepted
+    const newUser = new User({ 
+      accountType, 
+      fullName, 
+      emailAddress: trimmedEmail, 
+      mobileNumber, 
+      password, 
+      termsAccepted 
     });
-
+    
     await newUser.save();
-
     res.status(201).json({ message: 'User registered successfully', user: newUser });
   } catch (error) {
-    // Handle MongoDB duplicate key error
-    if (error.code === 11000) {
-      return res.status(400).json({ message: 'Email address is already registered' });
-    }
-
-    // Generic error handling
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({ message: 'Server error', error });
   }
 };
+
 
 
 
