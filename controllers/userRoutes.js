@@ -41,10 +41,6 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-
-
-
-
 // Function to authenticate a user
 exports.loginUser = async (req, res) => {
   const { emailAddress, password } = req.body;
