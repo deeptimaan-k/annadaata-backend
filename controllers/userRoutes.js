@@ -16,14 +16,29 @@ exports.registerUser = async (req, res) => {
     }
 
     // Create a new user
-    const newUser = new User({ accountType, fullName, emailAddress, mobileNumber, password, termsAccepted });
+    const newUser = new User({
+      accountType,
+      fullName,
+      emailAddress,
+      mobileNumber,
+      password,
+      termsAccepted
+    });
+
     await newUser.save();
-    
+
     res.status(201).json({ message: 'User registered successfully', user: newUser });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    // Handle MongoDB duplicate key error
+    if (error.code === 11000) {
+      return res.status(400).json({ message: 'Email address is already registered' });
+    }
+
+    // Generic error handling
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
 
 // Function to authenticate a user
 exports.loginUser = async (req, res) => {
