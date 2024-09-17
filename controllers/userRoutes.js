@@ -1,7 +1,8 @@
-const User = require('../models/registerSchema');
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env; // Ensure you have a JWT secret in your environment variables
+const User = require('../Models/registerSchema');
 
 // Function to register a new user
 exports.registerUser = async (req, res) => {
