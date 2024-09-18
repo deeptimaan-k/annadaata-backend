@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+// Define the schema for Vegetable
 const vegetableSchema = new Schema({
     name: {
         type: String,
@@ -25,10 +26,14 @@ const vegetableSchema = new Schema({
     imageUrls: {
         type: [String],
         required: true
+    },
+    farmer: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User' // Ensure this matches the name of your User model
     }
 });
 
-// Correct the model name to match the content (Vegetable instead of Fruit)
+// Define and export the Vegetable model
 const Vegetable = mongoose.model('Vegetable', vegetableSchema);
 
 module.exports = Vegetable;

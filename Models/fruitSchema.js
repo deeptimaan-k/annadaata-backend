@@ -7,7 +7,7 @@ const fruitSchema = new mongoose.Schema({
     season: { type: String, required: true },
     description: { type: String, required: true },
     imageUrls: [String],
-    farmer: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+    farmer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 
 const Fruit = mongoose.model('Fruit', fruitSchema);
