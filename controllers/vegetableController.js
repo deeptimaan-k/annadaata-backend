@@ -6,9 +6,9 @@ exports.createVegetable = async (req, res) => {
         const { id, name, price, unit, season, description, imageUrls } = req.body;
         const newVegetable = new Vegetables({ id, name, price, unit, season, description, imageUrls });
         await newVegetable.save();
-        res.status(201).json({ success: true, message: 'Vegetable created successfully', data: newVegetable });
+        res.status(201).json({ message: 'Vegetable created successfully', data: newVegetable });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Error creating vegetable', error: error.message });
+        res.status(500).json({ message: 'Error creating vegetable', error: error.message });
     }
 };
 
@@ -16,9 +16,9 @@ exports.createVegetable = async (req, res) => {
 exports.getAllVegetables = async (req, res) => {
     try {
         const vegetables = await Vegetables.find();
-        res.status(200).json({ success: true, data: vegetables });
+        res.status(200).json({ data: vegetables });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Error fetching vegetables', error: error.message });
+        res.status(500).json({ message: 'Error fetching vegetables', error: error.message });
     }
 };
 
@@ -30,9 +30,9 @@ exports.getVegetableById = async (req, res) => {
         if (!vegetable) {
             return res.status(404).json({ success: false, message: 'Vegetable not found' });
         }
-        res.status(200).json({ success: true, data: vegetable });
+        res.status(200).json({ data: vegetable });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Error fetching vegetable', error: error.message });
+        res.status(500).json({ message: 'Error fetching vegetable', error: error.message });
     }
 };
 
