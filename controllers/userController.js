@@ -1,4 +1,3 @@
-
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env; // Ensure you have a JWT secret in your environment variables
@@ -6,7 +5,7 @@ const User = require('../Models/registerSchema');
 
 // Function to register a new user
 exports.registerUser = async (req, res) => {
-  const { accountType, fullName, emailAddress, mobileNumber, password, termsAccepted } = req.body;
+  const { fullName, emailAddress, mobileNumber, password, termsAccepted, address, whatsapp } = req.body;
 
   try {
     // Trim emailAddress to avoid leading/trailing spaces
@@ -25,12 +24,13 @@ exports.registerUser = async (req, res) => {
 
     // Create a new user
     const newUser = new User({ 
-      accountType, 
       fullName, 
       emailAddress: trimmedEmail, 
       mobileNumber, 
       password, 
-      termsAccepted 
+      termsAccepted,
+      address,
+      whatsapp
     });
     
     await newUser.save();
@@ -59,7 +59,7 @@ exports.loginUser = async (req, res) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ id: user._id, accountType: user.accountType }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
     res.status(200).json({ message: 'Login successful', token });
   } catch (error) {

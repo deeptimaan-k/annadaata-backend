@@ -4,11 +4,6 @@ const Schema = mongoose.Schema;
 
 // Define the schema for the User
 const userSchema = new Schema({
-  accountType: {
-    type: String,
-    enum: ['Farmer', 'Buyer'],
-    required: true
-  },
   fullName: {
     type: String,
     required: true
@@ -31,7 +26,16 @@ const userSchema = new Schema({
   termsAccepted: {
     type: Boolean,
     required: true
-  }
+  },
+  // Optional fields
+  address: {
+    type: String,
+    trim: true
+  },
+  whatsapp: {
+    type: String,
+    trim: true
+  },
 }, {
   timestamps: true // Automatically add createdAt and updatedAt fields
 });
@@ -58,7 +62,7 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
   }
 };
 
-// Create a model from the schema
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
