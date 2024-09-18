@@ -16,20 +16,13 @@ router.get('/fruits', getAllFruits);
 // Route to fetch a fruit by ID
 router.get('/fruits/:id', getFruitById);
 
-// Create a new vegetable
-router.post('/vegetables', vegetableController.createVegetable);
 
-// Get all vegetables
-router.get('/vegetables', vegetableController.getAllVegetables);
+// Route to fetch all vegetable
+router.get('/vegetable', vegetableController.getAllVegetables);
 
-// Get a single vegetable by ID
-router.get('/vegetables/:id', vegetableController.getVegetableById);
+// Route to fetch a vegetable by ID
+router.get('/vegetable/:id', vegetableController.getVegetablesById);
 
-// Update a vegetable by ID
-router.put('/vegetables/:id', vegetableController.updateVegetable);
-
-// Delete a vegetable by ID
-router.delete('/vegetables/:id', vegetableController.deleteVegetable);
 
 
 module.exports = router;

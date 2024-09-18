@@ -1,75 +1,24 @@
 const Vegetables = require('../Models/vegitableModel');
 
-// Create a new vegetable
-exports.createVegetable = async (req, res) => {
-    try {
-        const { id, name, price, unit, season, description, imageUrls } = req.body;
-        const newVegetable = new Vegetables({ id, name, price, unit, season, description, imageUrls });
-        await newVegetable.save();
-        res.status(201).json({ message: 'Vegetable created successfully', data: newVegetable });
-    } catch (error) {
-        res.status(500).json({ message: 'Error creating vegetable', error: error.message });
-    }
-};
-
-// Get all vegetables
 exports.getAllVegetables = async (req, res) => {
     try {
         const vegetables = await Vegetables.find();
-        res.status(200).json({vegetables });
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching vegetables', error: error.message });
+        res.status(200).json(vegetables);
+    } catch (err) {
+        res.status(500).json({ message: 'Error fetching vegetables', error: err });
     }
 };
 
-// Get a single vegetable by ID
-exports.getVegetableById = async (req, res) => {
+// Controller to fetch a fruit by ID
+exports.getVegetablesById = async (req, res) => {
+    const { id } = req.params;
     try {
-        const { id } = req.params;
-        const vegetable = await Vegetables.findOne({ id });
-        if (!vegetable) {
-            return res.status(404).json({ message: 'Vegetable not found' });
+        const fruit = await Vegetables.findOne({ id: parseInt(id) });
+        if (!fruit) {
+            return res.status(404).json({ message: 'Fruit not found' });
         }
-        res.status(200).json({vegetable });
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching vegetable', error: error.message });
-    }
-};
-
-// Update a vegetable
-exports.updateVegetable = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { name, price, unit, season, description, imageUrls } = req.body;
-
-        const updatedVegetable = await Vegetables.findOneAndUpdate(
-            { id },
-            { name, price, unit, season, description, imageUrls },
-            { new: true } // Return the updated document
-        );
-
-        if (!updatedVegetable) {
-            return res.status(404).json({ message: 'Vegetable not found' });
-        }
-
-        res.status(200).json({ message: 'Vegetable updated successfully', data: updatedVegetable });
-    } catch (error) {
-        res.status(500).json({  message: 'Error updating vegetable', error: error.message });
-    }
-};
-
-// Delete a vegetable
-exports.deleteVegetable = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const vegetable = await Vegetables.findOneAndDelete({ id });
-
-        if (!vegetable) {
-            return res.status(404).json({  message: 'Vegetable not found' });
-        }
-
-        res.status(200).json({ message: 'Vegetable deleted successfully' });
-    } catch (error) {
-        res.status(500).json({  message: 'Error deleting vegetable', error: error.message });
+        res.status(200).json(fruit);
+    } catch (err) {
+        res.status(500).json({ message: 'Error fetching fruit', error: err });
     }
 };
