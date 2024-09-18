@@ -16,7 +16,7 @@ exports.createVegetable = async (req, res) => {
 exports.getAllVegetables = async (req, res) => {
     try {
         const vegetables = await Vegetables.find();
-        res.status(200).json({ data: vegetables });
+        res.status(200).json({vegetables });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching vegetables', error: error.message });
     }
@@ -28,9 +28,9 @@ exports.getVegetableById = async (req, res) => {
         const { id } = req.params;
         const vegetable = await Vegetables.findOne({ id });
         if (!vegetable) {
-            return res.status(404).json({ success: false, message: 'Vegetable not found' });
+            return res.status(404).json({ message: 'Vegetable not found' });
         }
-        res.status(200).json({ data: vegetable });
+        res.status(200).json({vegetable });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching vegetable', error: error.message });
     }
@@ -49,12 +49,12 @@ exports.updateVegetable = async (req, res) => {
         );
 
         if (!updatedVegetable) {
-            return res.status(404).json({ success: false, message: 'Vegetable not found' });
+            return res.status(404).json({ message: 'Vegetable not found' });
         }
 
-        res.status(200).json({ success: true, message: 'Vegetable updated successfully', data: updatedVegetable });
+        res.status(200).json({ message: 'Vegetable updated successfully', data: updatedVegetable });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Error updating vegetable', error: error.message });
+        res.status(500).json({  message: 'Error updating vegetable', error: error.message });
     }
 };
 
@@ -65,11 +65,11 @@ exports.deleteVegetable = async (req, res) => {
         const vegetable = await Vegetables.findOneAndDelete({ id });
 
         if (!vegetable) {
-            return res.status(404).json({ success: false, message: 'Vegetable not found' });
+            return res.status(404).json({  message: 'Vegetable not found' });
         }
 
-        res.status(200).json({ success: true, message: 'Vegetable deleted successfully' });
+        res.status(200).json({ message: 'Vegetable deleted successfully' });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Error deleting vegetable', error: error.message });
+        res.status(500).json({  message: 'Error deleting vegetable', error: error.message });
     }
 };
