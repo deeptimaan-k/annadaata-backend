@@ -31,6 +31,7 @@ mongoose.connect(process.env.DB_URI, {
 // Use user routes
 app.use('/api/users', userRoutes); // Define the base path for user routes
 app.use('/api/fruits', userRoutes); // Define the base path for user routes
+app.use('/api/Vegetables', userRoutes); // Define the base path for user routes
 
 // Error handling middleware
 app.use((err, req, res, next) => {
